@@ -189,7 +189,12 @@ public class RoomService {
         rewards = null;
         achievementID = null;
         consumables = new List<ItemStateCriteria>();
-        var itemStates = itemService.GetItem((int)pos.ItemID).ItemStates;
+
+        List<ItemState> itemStates;
+        if (pos.ItemID is null || pos.ItemID == 0)
+            itemStates = pos.Item.ItemStates;
+        else
+            itemStates = itemService.GetItem((int)pos.ItemID).ItemStates;
 
         if (pos.UserItemState == null)
             return itemStates.Find(x => x.Order == 1)!.ItemStateID;
