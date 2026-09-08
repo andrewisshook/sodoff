@@ -4,6 +4,7 @@ services:
     build:
       context: .
       dockerfile: src/Dockerfile
+      network: host
     # ports:
     #   - 5000:5000
     networks:
