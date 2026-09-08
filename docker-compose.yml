@@ -5,9 +5,9 @@ services:
       context: .
       dockerfile: src/Dockerfile
       network: host
-      ports:
-        - 5000:5000
-        - 5001:5001
+    ports:
+      - 5000:5000
+      - 5001:5001
     networks:
       sodoff_network:
         # use static ip address for nginx proxy configuration
