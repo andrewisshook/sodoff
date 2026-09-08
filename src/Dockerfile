@@ -5,18 +5,21 @@ WORKDIR /src
 # Copy the source code
 COPY . .
 
-# Restore dependencies and build the application
-RUN dotnet build -c Release -o /app
+# Restore dependencies first
+RUN dotnet restore
 
-# move mods and assets directors from sources to /app
+# Build and publish the application
+RUN dotnet publish -c Release -o /app
+
+# Move mods and assets directories from sources to /app
 RUN mv src/mods /app && ln -s /app/mods src/
 RUN mv src/assets /app && ln -s /app/assets src/
 
 # Create clean run environment (without source and sdk)
-# FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
-# WORKDIR /app
-# COPY --from=build /app .
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
+WORKDIR /app
+
+COPY --from=build /app .
 
 # Run the application
-WORKDIR /app
 ENTRYPOINT ["./sodoff"]
